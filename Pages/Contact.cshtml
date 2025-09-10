@@ -1,0 +1,66 @@
+﻿@page
+@model WebApplication3.Pages.ContactModel
+@{}
+
+<h2>Contact Us</h2>
+
+<section>
+
+    <article>
+
+        <p>To contact us, please phone us at <a href="tel:@ViewData["phone_number"]">by phone</a>. Or by 
+            <a href="mailto:@ViewData["email"]">email</a></p>
+
+        <p>
+            To go <a href="/About">About us Page - Normal Way</a>
+        </p>
+
+        <p>
+            To go <a asp-page="/About">About us Page -ASP-Friendly Way</a>
+        </p>
+
+
+    </article>
+
+</section>
+
+
+<section>
+
+    <h2>Send Us A Message</h2>
+
+    <div asp-validation-summary="All">       
+    </div>
+
+    @if (Model.Message.ToString().Length > 0)
+    
+    {
+            <p>@Model.Message</p>    
+    
+    }
+
+    <form method="post">
+        <!-- 
+            Name
+            Email
+            Message
+        -->
+
+        <div>
+            <label asp-for="ContactForm.Name"></label>
+            <input type="text" asp-for="ContactForm.Name" />
+        </div>
+
+        <div>
+            <label asp-for="ContactForm.Email"></label>
+            <input type="email" asp-for="ContactForm.Email" />
+        </div>
+        <div>
+            <label asp-for="ContactForm.Message"></label>
+            <textarea asp-for="ContactForm.Message"></textarea>
+        </div>
+
+        <input type ="submit" value="Submit Form" >
+    </form>
+
+</section>
