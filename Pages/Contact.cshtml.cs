@@ -32,6 +32,9 @@ namespace WebApplication3.Pages
 
         public string Message { set; get; } = string.Empty;
 
+        [TempData]
+        public string SuccessMessage { set; get; } = string.Empty;
+
         public void OnGet()
         {
             ViewData["phone_number"] = 9055551234;
@@ -53,6 +56,14 @@ namespace WebApplication3.Pages
             {
 
                 Message = "Sucessfully submitted the form";
+                ContactForm.Name = string.Empty;
+                ContactForm.Email = string.Empty;
+                ContactForm.Message = string.Empty;
+
+                SuccessMessage = "The form was succusfully submitted";
+
+                return RedirectToPage();
+
 
             }
             else {

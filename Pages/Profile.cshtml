@@ -1,0 +1,58 @@
+﻿@page "{id:int?}/{name?}/{age:int?}"
+@model WebApplication3.Pages.ProfileModel
+@{
+}
+
+<h1>Profile Page</h1>
+
+<form method="post">
+    <div>
+    <label asp-for="ProfileFormData.Id"></label>
+    <input type="number" value="1" min="1" max="100" step="1" asp-for="ProfileFormData.Id" />
+    </div>
+
+    <div>
+        <label asp-for="ProfileFormData.Name"></label>
+        <input type="text" asp-for="ProfileFormData.Name" />
+    </div>
+        <div>
+            <label asp-for="ProfileFormData.Age"></label>
+            <input type="number" value="18" min="18" max="65" step="1" asp-for="ProfileFormData.Age" />
+        </div>
+
+
+    <input type="submit" value="Submit Form">
+</form>
+
+@if (Model.ProfileToDisplay != null) { 
+
+    <div>
+        <h2>Selected Profile</h2>
+        <p><strong>Id: </strong>@Model.ProfileToDisplay.Id</p>
+        <p><strong>Name: </strong>@Model.ProfileToDisplay.Name</p>
+        <p><strong>Age: </strong>@Model.ProfileToDisplay.Age</p>
+
+    </div>//someone has chosen a profile, display prfoile info
+}
+
+<table>
+<tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Age
+        </th>
+</tr>
+@foreach (var currentProfile in Model.Profiles) { 
+    // display a table with Profile column headers => each row has Id, Name & Age value
+    <tr>
+        <td>@currentProfile.Id</td>
+            <td>@currentProfile.Name</td>
+            <td>@currentProfile.Age</td>
+    </tr>
+}
+</table>

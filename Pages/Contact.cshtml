@@ -38,6 +38,11 @@
             <p>@Model.Message</p>    
     
     }
+    @if (TempData["SuccessMessage"] != null)
+    {
+
+        <p style="color:green">@TempData["SuccessMessage"]</p>
+    }
 
     <form method="post">
         <!-- 
