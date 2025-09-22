@@ -16,9 +16,8 @@ namespace WebApplication3.Pages
         //why? To display a list in our view
         public List<Profile> Profiles { get; set; }
 
+        public ProfileModel() {
 
-        public void OnGet(int? id, string? name, int? age)
-        {
             Profiles = new List<Profile>
             {
                 new Profile { Id = 1, Name = "Ben", Age = 20},
@@ -27,18 +26,49 @@ namespace WebApplication3.Pages
             };
 
 
-            if (id.HasValue && id > 0) {
-              Profiles = Profiles.Where(p => p.Id == id).ToList();
-            }
+        }
 
-            if (age.HasValue && age >= 18 && age <= 65) {
-                Profiles = Profiles.Where(p => p.Age == age).ToList();
-            }
 
-            if (!string.IsNullOrEmpty(name)) {
-                Profiles = Profiles.Where(p => p.Name.Equals(name)).ToList();
-            }
+        public void OnGet(int? id, string? name, int? age, string? query)
+        {
+            if (!string.IsNullOrEmpty(query)) {
 
+                bool isNumerical = false;
+                int? num = null;
+                try {
+                    num = Convert.ToInt32(query);
+                    isNumerical = true;
+                    
+                }
+                catch (Exception e) {
+                    //was not ablr to convert query to num
+                }
+
+                query = query.ToLower();
+                if (isNumerical)
+                {
+                    Profiles = Profiles.Where(p => p.Age == num || p.Id == num).ToList();
+                }
+                else
+                {
+                    Profiles = Profiles.Where(p => p.Name.ToLower().Contains(query)).ToList();
+                }
+            }
+            else {
+
+
+                if (id.HasValue && id > 0) {
+                    Profiles = Profiles.Where(p => p.Id == id).ToList();
+                }
+
+                if (age.HasValue && age >= 18 && age <= 65) {
+                    Profiles = Profiles.Where(p => p.Age == age).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(name)) {
+                    Profiles = Profiles.Where(p => p.Name.Equals(name)).ToList();
+                }
+            }
             if (Profiles.Count == 1) {
 
                 ProfileToDisplay = Profiles[0];
@@ -49,23 +79,24 @@ namespace WebApplication3.Pages
         public IActionResult OnPost()
         {
 
-            Profiles = new List<Profile>
-            {
-                new Profile { Id = 1, Name = "Ben", Age = 20},
-                new Profile { Id = 2, Name = "Mary", Age = 21},
-                new Profile { Id = 3, Name = "John", Age = 22},
-            };
-
-
-
             if (ModelState.IsValid)
             {
+                /*
                 ProfileToDisplay = new Profile()
                 {
                     Id = ProfileFormData.Id,
                     Name = ProfileFormData.Name,
                     Age = ProfileFormData.Age
                 };
+                */
+                Profiles.Add(
+                    new Profile()
+                    {
+                        Id = ProfileFormData.Id,
+                        Name = ProfileFormData.Name,
+                        Age = ProfileFormData.Age
+                    }
+                    );
             }
 
             return Page();

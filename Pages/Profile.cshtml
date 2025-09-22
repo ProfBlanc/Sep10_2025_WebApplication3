@@ -4,7 +4,7 @@
 }
 
 <h1>Profile Page</h1>
-
+<div style="width:50%; float: left;">
 <form method="post">
     <div>
     <label asp-for="ProfileFormData.Id"></label>
@@ -23,6 +23,15 @@
 
     <input type="submit" value="Submit Form">
 </form>
+</div>
+<div style="width:50%; float: left;">
+    <form method="get">
+        <input type="text" name="query" placeholder="Enter Search Terms" />
+        <br/>
+        <input type="submit" value="Search"/>
+    </form>
+</div>
+<div style="clear:both"></div>
 
 @if (Model.ProfileToDisplay != null) { 
 
@@ -51,7 +60,15 @@
     // display a table with Profile column headers => each row has Id, Name & Age value
     <tr>
         <td>@currentProfile.Id</td>
-            <td>@currentProfile.Name</td>
+            <td>
+                <a asp-page="/Profile" 
+                asp-route-id="@currentProfile.Id" 
+                asp-route-name="@currentProfile.Name"
+                asp-route-age="@currentProfile.Age"
+            >
+            @currentProfile.Name
+            </a>
+            </td>
             <td>@currentProfile.Age</td>
     </tr>
 }
